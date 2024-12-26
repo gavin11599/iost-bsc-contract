@@ -1,0 +1,72 @@
+{
+  "payPinNode_1": {
+    "beneficiary": "0x3308732892C4897722896CF31aD58F4c1b2688b2",
+    "start": "1735084800",
+    "slice": 1,
+    "duration": "31104000",
+    "amount": "3485820000"
+  },
+  "payPinNode_2": {
+    "beneficiary": "0x3308732892C4897722896CF31aD58F4c1b2688b2",
+    "start": "1769904000",
+    "slice": 1,
+    "duration": "31104000",
+    "amount": "2910180000"
+  },
+  "payPinNode_3": {
+    "beneficiary": "0x3308732892C4897722896CF31aD58F4c1b2688b2",
+    "start": "1801440000",
+    "slice": 1,
+    "duration": "31104000",
+    "amount": "2558400000"
+  },
+  "payPinNode_4": {
+    "beneficiary": "0x3308732892C4897722896CF31aD58F4c1b2688b2",
+    "start": "1832976000",
+    "slice": 1,
+    "duration": "31104000",
+    "amount": "2430480000"
+  },
+  "payPinNode_5": {
+    "beneficiary": "0x3308732892C4897722896CF31aD58F4c1b2688b2",
+    "start": "1864598400",
+    "slice": 1,
+    "duration": "31104000",
+    "amount": "1407120000"
+  },
+  "airdrops": {
+    "beneficiary": "0x3308732892C4897722896CF31aD58F4c1b2688b2",
+    "start": "1735084800",
+    "slice": "2592000",
+    "duration": "124416000",
+    "amount": "4263999984"
+  },
+  "payFiCommunity": {
+    "beneficiary": "0x3308732892C4897722896CF31aD58F4c1b2688b2",
+    "start": "1735084800",
+    "slice": "2592000",
+    "duration": "93312000",
+    "amount": "1705600008"
+  },
+  "developerGrant": {
+    "beneficiary": "0x3308732892C4897722896CF31aD58F4c1b2688b2",
+    "start": "1735084800",
+    "slice": "2592000",
+    "duration": "93312000",
+    "amount": "1065999996"
+  },
+  "dao": {
+    "beneficiary": "0x3308732892C4897722896CF31aD58F4c1b2688b2",
+    "start": "1735084800",
+    "slice": "2592000",
+    "duration": "124416000",
+    "amount": "852799968"
+  },
+  "team": {
+    "beneficiary": "0x3308732892C4897722896CF31aD58F4c1b2688b2",
+    "start": "1769904000",
+    "slice": "2592000",
+    "duration": "93312000",
+    "amount": "639599976"
+  }
+}
