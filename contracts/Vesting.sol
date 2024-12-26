@@ -1,17 +1,4 @@
 // SPDX-License-Identifier: Apache-2.0
-/*
- * This contract is based on the original work from AbdelStark's token-vesting-contracts.
- * Source: https://github.com/AbdelStark/token-vesting-contracts
- * License: Apache-2.0 (see LICENSE file in the original repository).
- *
- * Modifications made:
- * - Replace the library from solmate to OpenZeppelin
- * - Optimized error handling
- * - Reject ether transfer
- * - Emit events
- *
- * The modifications are licensed under Apache-2.0.
- */
 pragma solidity =0.8.27;
 
 // OpenZeppelin dependencies
