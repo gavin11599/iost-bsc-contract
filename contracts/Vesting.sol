@@ -68,11 +68,20 @@ contract Vesting is Ownable, ReentrancyGuard {
     /// @notice Emitted when vesting schedule has been revoked
     event VestingScheduleRevoked(bytes32 indexed vestingScheduleId);
 
+    /// @notice Emitted when token withdrawn
+    event TokenWithdrawn(address indexed reciever, uint256 amount);
+
     /// @notice Token address is zero
     error ZeroTokenAddress();
 
     /// @notice Schedule has been revoked
     error ScheduleRevoked();
+
+    /// @notice Zero address
+    error ZeroAddress();
+
+    /// @notice Start time is before current time
+    error StartLessThanCurrent();
 
     /// @notice Insufficient amount of tokens
     error InsufficientAmount();
@@ -85,6 +94,9 @@ contract Vesting is Ownable, ReentrancyGuard {
 
     /// @notice Zero slice periods
     error ZeroSlicePeriods();
+
+    /// @notice Slice period is greater than duration
+    error SlicePeriodGreaterThanDuration();
 
     /// @notice Duration is less than the cliff
     /// @param duration vesting duration in seconds
@@ -135,10 +147,13 @@ contract Vesting is Ownable, ReentrancyGuard {
         bool _revocable,
         uint256 _amount
     ) external onlyOwner returns (bytes32){
+        require(_beneficiary != address(0), ZeroAddress());
+        require(_start >= block.timestamp, StartLessThanCurrent());
         require(getWithdrawableAmount() >= _amount, InsufficientAmount());
         require(_duration > 0, ZeroDuration());
         require(_amount > 0, ZeroAmount());
         require(_slicePeriodSeconds >= 1, ZeroSlicePeriods());
+        require(_slicePeriodSeconds <= _duration, SlicePeriodGreaterThanDuration());
         require(_duration >= _cliff, DurationLessThanCliff(_duration, _cliff));
         bytes32 vestingScheduleId = computeNextVestingScheduleIdForHolder(
             _beneficiary
@@ -204,6 +219,8 @@ contract Vesting is Ownable, ReentrancyGuard {
     function withdraw(uint256 amount) external nonReentrant onlyOwner {
         require(getWithdrawableAmount() >= amount, InsufficientAmount());
         token.safeTransfer(msg.sender, amount);
+
+        emit TokenWithdrawn(msg.sender, amount);
     }
 
     /**

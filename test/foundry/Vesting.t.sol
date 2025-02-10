@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity =0.8.27;
+
 import "../../contracts/IOSToken.sol";
 import "../../contracts/Vesting.sol";
 import "../../contracts/test/VestingHarness.sol";
@@ -13,6 +14,50 @@ contract VestingTest is Test {
     function setUp() public {
         iost = new IOSToken(address(this));
         vesting = new VestingHarness(IERC20(address(iost)));
+    }
+
+    function test_createVetingSchedule_revertOnZeroBenificiary() public {
+        vm.expectRevert(Vesting.ZeroAddress.selector);
+        vesting.createVestingSchedule(
+            address(0),
+            0,
+            0,
+            100,
+            1,
+            false,
+            100
+        );
+    }
+
+    function test_createVestingSchedule_revertOnBadStartTime() public {
+        vm.expectRevert(Vesting.StartLessThanCurrent.selector);
+        uint256 timestamp = 1734404291;
+        vm.warp(timestamp);
+        vesting.createVestingSchedule(
+            address(0x1),
+            timestamp - 1,
+            0,
+            100,
+            1,
+            false,
+            100
+        );
+    }
+
+    function test_createVestingSchedule_revertOnBadSlicePeriod() public {
+        iost.transfer(address(vesting), 21320000000e18);
+        vm.expectRevert(Vesting.SlicePeriodGreaterThanDuration.selector);
+        uint256 timestamp = 1734404291;
+        vm.warp(timestamp);
+        vesting.createVestingSchedule(
+            address(0x1),
+            timestamp,
+            0,
+            100,
+            101,
+            false,
+            100
+        );
     }
 
     function test_createVestingSchedule() public {
@@ -294,8 +339,8 @@ contract VestingTest is Test {
         vesting.revoke(vestingScheduleId);
         vm.stopPrank();
 
-        vm.warp(timestamp-1);
-        assertEq(vesting.getWithdrawableAmount(), 21320000000e18-100e18);
+        vm.warp(timestamp - 1);
+        assertEq(vesting.getWithdrawableAmount(), 21320000000e18 - 100e18);
         assertEq(vesting.vestingSchedulesTotalAmount(), 100e18);
         assertEq(iost.balanceOf(address(this)), 0);
         vesting.revoke(vestingScheduleId);
@@ -320,7 +365,7 @@ contract VestingTest is Test {
             100e18
         );
 
-        vm.warp(timestamp+10);
+        vm.warp(timestamp + 10);
         // test There is no release credit
         address addressA = vm.addr(1);
         vm.startPrank(addressA);
@@ -328,12 +373,12 @@ contract VestingTest is Test {
         vesting.revoke(vestingScheduleId);
         vm.stopPrank();
 
-        assertEq(vesting.getWithdrawableAmount(), 21320000000e18-100e18);
+        assertEq(vesting.getWithdrawableAmount(), 21320000000e18 - 100e18);
         assertEq(vesting.vestingSchedulesTotalAmount(), 100e18);
         assertEq(iost.balanceOf(address(this)), 0);
         vesting.revoke(vestingScheduleId);
         assertEq(iost.balanceOf(address(this)), 10e18);
-        assertEq(vesting.getWithdrawableAmount(), 21320000000e18-10e18);
+        assertEq(vesting.getWithdrawableAmount(), 21320000000e18 - 10e18);
         assertEq(vesting.vestingSchedulesTotalAmount(), 0);
     }
 
