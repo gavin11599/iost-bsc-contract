@@ -11,13 +11,13 @@ const config: HardhatUserConfig = {
       allowUnlimitedContractSize: false,
     },
     testnet: {
-      url: "https://bsc-testnet.public.blastapi.io",
+      url: "https://bsc-testnet.blastapi.io/",
       chainId: 97,
       gasPrice: 20000000000,
       accounts: [`${process.env.PRIVATE_KEY}`],
     },
     mainnet: {
-      url: "https://bsc-dataseed.binance.org/",
+      url: "https://bsc-mainnet.blastapi.io/",
       chainId: 56,
       gasPrice: 20000000000,
       accounts: [`${process.env.PRIVATE_KEY}`],
