@@ -19,5 +19,5 @@
 
 ## How to verify
  ```shell
-npx hardhat ignition verify chain-97
+npx hardhat ignition verify chain-56 --include-unrelated-contracts --show-stack-traces
  ```
